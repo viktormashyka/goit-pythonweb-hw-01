@@ -3,6 +3,7 @@ from typing import Type
 
 logging.basicConfig(level=logging.INFO)
 
+
 class Vehicle:
     def __init__(self, make: str, model: str):
         self.make = make
@@ -11,46 +12,54 @@ class Vehicle:
     def start_engine(self, message: str) -> None:
         logging.info(f"{self.make} {self.model}: {message}")
 
+
 class Car(Vehicle):
     def __init__(self, make: str, model: str):
         super().__init__(make, model)
+
     def start_car_engine(self) -> None:
         self.start_engine("Двигун запущено")
+
 
 class Motorcycle(Vehicle):
     def __init__(self, make: str, model: str):
         super().__init__(make, model)
+
     def start_motorcycle_engine(self) -> None:
         self.start_engine("Мотор заведено")
+
 
 class VehicleFactory:
     def create_car(self, make: str, model: str) -> Type[Car]:
         return Car(make, model)
-    
+
     def create_motorcycle(self, make: str, model: str) -> Type[Motorcycle]:
         return Motorcycle(make, model)
-    
+
+
 class USVehicleFactory(VehicleFactory):
     def create_car(self, make: str, model: str) -> Type[Car]:
         car = super().create_car(make, model)
-        car.region = '(US Spec)'
+        car.region = "(US Spec)"
         return car
-    
+
     def create_motorcycle(self, make: str, model: str) -> Type[Motorcycle]:
         motorcycle = super().create_motorcycle(make, model)
-        motorcycle.region = '(US Spec)'
+        motorcycle.region = "(US Spec)"
         return motorcycle
-    
+
+
 class EUVehicleFactory(VehicleFactory):
     def create_car(self, make: str, model: str) -> Type[Car]:
         car = super().create_car(make, model)
-        car.region = '(EU Spec)'
+        car.region = "(EU Spec)"
         return car
-    
+
     def create_motorcycle(self, make: str, model: str) -> Type[Motorcycle]:
         motorcycle = super().create_motorcycle(make, model)
-        motorcycle.region = '(EU Spec)'
+        motorcycle.region = "(EU Spec)"
         return motorcycle
+
 
 # Використання
 US_car_factory = USVehicleFactory()

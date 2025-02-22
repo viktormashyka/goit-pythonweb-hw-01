@@ -1,46 +1,50 @@
 from abc import ABC, abstractmethod
+from typing import List
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 class Book:
-    def __init__(self, title, author, year):
+    def __init__(self, title: str, author: str, year: int)-> None:
         self.title = title
         self.author = author
         self.year = year
 
 class LibraryInterface(ABC):
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
 class Library(LibraryInterface):
-    def __init__(self):
-        self.books = []
+    def __init__(self) -> None:
+        self.books: List[Book] = []
 
 class LibraryManager:
-    def __init__(self, library):
+    def __init__(self, library: Library) -> None:
         self.library = library
 
-    def add_book(self, title, author, year):
+    def add_book(self, title: str, author: str, year: int) -> None:
         self.library.books.append(Book(title, author, year))
-        print(f'Book with title {title} added.')
+        logging.info(f"Book with title {title} added.")
 
-    def remove_book(self, title):
+    def remove_book(self, title: str) -> None:
         for book in self.library.books:
             if book.title == title:
                 self.library.books.remove(book)
-                print(f'Book with title {title} removed.')
+                logging.info(f'Book with title {title} removed.')
                 break
         else:
-            print(f'Book with title {title} not found in library.')
+            logging.info(f'Book with title {title} not found in library.')
 
     def show_books(self):
         if not self.library.books:
-            print("No books in library.")
+            logging.info("No books in library.")
             return
         
-        print(f'{"Title":<30} {"Author":<30} {"Year":<4}')
-        print('-' * 64)
+        logging.info(f'{"Title":<30} {"Author":<30} {"Year":<4}')
+        logging.info('-' * 64)
         for book in self.library.books:
-            print(f'{book.title:<30} {book.author:<30} {book.year:<4}')
+            logging.info(f'{book.title:<30} {book.author:<30} {book.year:<4}')
 
 def main():
     library = Library()
@@ -63,7 +67,7 @@ def main():
             case "exit":
                 break
             case _:
-                print("Invalid command. Please try again.")
+                logging.info("Invalid command. Please try again.")
 
 if __name__ == "__main__":
     main()
